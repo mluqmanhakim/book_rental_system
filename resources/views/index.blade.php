@@ -1,15 +1,15 @@
 @extends('layout.base')
 
 @section('content')
+<h1>Search books</h1>
+<form>
+  <div class="mb-3">
+    <input type="text" class="form-control" id="" aria-describedby="">
+  </div>
+  <button type="submit" class="btn btn-primary">Search</button>
+</form>
 
-<div class="jumbotron">
-    <h1 class="display-4">Book Rental</h1>
-    <p class="lead">A place where you will laugh</p>
-
-
-    <h1>Search books</h1>
-
-</div>
+<br><br>
 
 <div class="alert alert-primary" role="alert">
     Number of users
@@ -28,7 +28,7 @@
 </div>
 
 
-<h1>List of genres</h1>
+<h1>Genres</h1>
 
 @foreach ($genres as $genre)
 

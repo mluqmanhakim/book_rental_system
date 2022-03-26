@@ -20,14 +20,15 @@ class UserSeeder extends Seeder
         DB::table('users')->truncate();
 
         User::create([
-            'name' => 'A reader',
+            'name' => 'Luqman',
             'email' => 'reader@brs.com',
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
         ]);
 
         User::create([
-            'name' => 'A librarian',
+            'name' => 'Librarian',
             'email' => 'librarian@brs.com',
+            'is_librarian' => True,
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
         ]);
     }

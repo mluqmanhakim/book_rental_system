@@ -2,6 +2,9 @@
 
 @section('content')
 
+<a href="#" class="btn btn-primary">Borrow</a>
+
+
 <h3>{{ $book->title }}</h3>
 Author: {{ $book->authors }}
 <br>
