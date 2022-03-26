@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BookController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\GenreController;
 
@@ -20,4 +21,6 @@ use App\Http\Controllers\GenreController;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/genre/{id}', [GenreController::class, 'show'])->name('show_genre');
+
+Route::get('/book/{id}', [BookController::class, 'show'])->name('show_book');
 

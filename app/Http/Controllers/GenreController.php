@@ -9,6 +9,9 @@ class GenreController extends Controller
 {
     public function show($id)
     {
-        return view('genre.index');
+        $genre = Genre::find($id);
+        return view('genre.detail', [
+            'genre' => $genre
+        ]);
     }
 }
