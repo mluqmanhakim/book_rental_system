@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
 use App\Models\Genre;
-use App\Models\Borrow;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,6 +13,14 @@ class HomeController extends Controller
         $genres = Genre::all();
         return view('index', [
             'genres' => $genres
+        ]);
+    }
+
+    public function show_user_profile()
+    {
+        $user = Auth::user();
+        return view('user.profile', [
+            'user' => $user
         ]);
     }
 }

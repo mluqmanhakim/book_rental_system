@@ -4,7 +4,9 @@
 <h1>Rental Detail</h1>
 
 <h1>Book</h1>
-<a href="{{ route('show_book', $rental->book->id) }}"><h3>{{ $rental->book->title }}</h3></a>
+<a href="{{ route('show_book', $rental->book->id) }}">
+    <h3>{{ $rental->book->title }}</h3>
+</a>
 
 <h1>Rental</h1>
 Borrower name: {{ $rental->user->name }}
@@ -37,21 +39,19 @@ Librarian's name {{ $rental->managed_return_user->name }}
             <option value="REJECTED" {{ (old('status', $rental->status) == "REJECTED" ? "selected":"") }}>REJECTED</option>
             <option value="ACCEPTED" {{ (old('status', $rental->status) == "ACCEPTED" ? "selected":"") }}>ACCEPTED</option>
             <option value="RETURNED" {{ (old('status', $rental->status) == "RETURNED" ? "selected":"") }}>RETURNED</option>
-            
         </select>
     </div>
-    {{$rental->deadline}}
+
     <div class="form-group">
         <label for="deadline">Deadline</label>
-        <input name="deadline" type="datetime-local" class="form-control @error('deadline') is-invalid @enderror" id="deadline" placeholder="" value="{{ old('deadline', $rental->deadline) }}">
-
+        <input name="deadline" type="datetime-local" class="form-control @error('deadline') is-invalid @enderror" id="deadline" placeholder="" value="{{ old('deadline', $deadline) }}">
         @error('deadline')
         <div class="invalid-feedback">
             {{ $message }}
         </div>
         @enderror
     </div>
-    
+
     <div class="form-group">
         <button type="submit" class="btn btn-primary">Save</button>
     </div>

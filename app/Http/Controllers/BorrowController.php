@@ -12,8 +12,11 @@ class BorrowController extends Controller
     public function show($id)
     {
         $rental = Borrow::find($id);
+        is_null($rental->deadline) ? $deadline = date("Y-m-d\TH:i", strtotime(Carbon::now())) : $deadline = date("Y-m-d\TH:i", strtotime($rental->deadline));
+        
         return view('rental.detail', [
-            'rental' => $rental
+            'rental' => $rental,
+            'deadline' => $deadline
         ]);
     }
     public function show_my_rental()
@@ -58,5 +61,16 @@ class BorrowController extends Controller
             'rejected_rentals' => $rejected_rentals,
             'returned_rentals' => $returned_rentals
         ]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $validated_data = $request->validate([
+            'deadline' => 'required|date|after:now',
+            'status' => 'required',
+        ]);
+        $rental = Borrow::find($id);
+        $rental->update($validated_data);
+        return redirect()->route('show_rental', $rental->id);
     }
 }

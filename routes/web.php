@@ -21,6 +21,7 @@ Auth::routes();
 
 Route::get('/', [HomeController::class, 'index'])->name('index');
 Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/user/profile', [HomeController::class, 'show_user_profile'])->name('show_user_profile');
 
 Route::get('/genre', [GenreController::class, 'index'])->name('genre_index');
 Route::get('/genre/create', [GenreController::class, 'create'])->name('create_genre');
