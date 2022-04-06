@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\GenreController;
 use App\Http\Controllers\BorrowController;
 
@@ -18,13 +19,7 @@ use App\Http\Controllers\BorrowController;
 |
 */
 Auth::routes();
-
-Route::get('/', [HomeController::class, 'index'])->name('index');
-Route::get('/home', [HomeController::class, 'index'])->name('home');
-Route::post('/search', [HomeController::class, 'search_book'])->name('search_book');
-
-
-Route::get('/user/profile', [HomeController::class, 'show_user_profile'])
+Route::get('/user/profile', [UserController::class, 'show_user_profile'])
     ->name('show_user_profile')->middleware('auth');
 
 Route::get('/genre', [GenreController::class, 'index'])->name('genre_index');
@@ -49,7 +44,11 @@ Route::put('/rental/{id}', [BorrowController::class, 'update'])->name('update_re
 
 Route::get('/borrow/book/{id}', [BorrowController::class, 'borrow_book'])
     ->name('borrow_book');
-
+    
+// public routes
+Route::get('/', [HomeController::class, 'index'])->name('index');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::post('/search', [HomeController::class, 'search_book'])->name('search_book');    
 Route::get('/genre/{id}', [HomeController::class, 'show_genre'])->name('show_genre');
 Route::get('/book/{id}', [HomeController::class, 'show_book'])->name('show_book');
 
