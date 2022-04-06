@@ -4,22 +4,21 @@ namespace App\Http\Controllers;
 use App\Models\Genre;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class GenreController extends Controller
 {
+    public function __construct() {
+        $this->middleware('auth');
+        Gate::authorize('librarian', Auth::user());
+    }
+    
     public function index()
     {
         $genres = Genre::all();
         return view('genre.index', [
             'genres' => $genres
-        ]);
-    }
-
-    public function show($id)
-    {
-        $genre = Genre::find($id);
-        return view('genre.detail', [
-            'genre' => $genre
         ]);
     }
 

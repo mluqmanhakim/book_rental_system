@@ -16,4 +16,13 @@ class Book extends Model
     {
         return $this->belongsToMany(Genre::class);
     }
+
+    public function allowed_to_borrow($user_id)
+    {
+        $active_rentals = Borrow::where('reader_id', $user_id)
+                            ->where('book_id', $this->id)
+                            ->whereIn('status', ['PENDING', 'ACCEPTED'])
+                            ->get();
+        return ($active_rentals->count() > 0) ? False : True;
+    }
 }

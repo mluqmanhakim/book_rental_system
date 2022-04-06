@@ -2,14 +2,25 @@
 
 @section('content')
 
-<a href="#" class="btn btn-primary">Borrow</a>
+@auth
+@if(Auth::user()->is_librarian())
 <a href="{{ route('edit_book', $book->id) }}" class="btn btn-primary">Edit</a>
-
 <form action="{{ route('delete_book', $book->id) }}" method="POST">
     @csrf
     @method('DELETE')
     <button type="submit" class="btn btn-danger">Delete</button>
 </form>
+@else
+@if ($book->allowed_to_borrow(Auth::id()))
+<a href="{{ route('borrow_book', $book->id) }}" class="btn btn-primary">Borrow</a>
+@else
+
+<div class="alert alert-primary" role="alert">
+    You are currently borrowing this book
+</div>
+@endif
+@endif
+@endauth
 
 
 <h3>{{ $book->title }}</h3>
