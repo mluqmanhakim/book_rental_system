@@ -27,14 +27,6 @@ class HomeController extends Controller
         ]);
     }
 
-    public function show_user_profile()
-    {
-        $user = Auth::user();
-        return view('user.profile', [
-            'user' => $user
-        ]);
-    }
-
     public function search_book(Request $request)
     {
         $validated_data = $request->validate([

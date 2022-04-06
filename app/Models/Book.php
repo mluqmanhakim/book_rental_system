@@ -25,4 +25,13 @@ class Book extends Model
                             ->get();
         return ($active_rentals->count() > 0) ? False : True;
     }
+
+    public function available_books()
+    {
+        $active_rentals = Borrow::where('book_id', $this->id)
+                            ->where('status', 'ACCEPTED')
+                            ->get();
+        $available_book = $this->in_stock - $active_rentals->count();
+        return $available_book;
+    }
 }

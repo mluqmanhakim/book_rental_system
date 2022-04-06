@@ -23,30 +23,52 @@
 @endauth
 
 
-<h3>{{ $book->title }}</h3>
-Author: {{ $book->authors }}
-<br>
-Released at: {{ $book->released_at }}
-<br>
-Description: {{ $book->description }}
-<br>
-Pages: {{ $book->pages }}
-<br>
-Genres:
-@foreach($book->genres as $genre)
-<a href="{{ route('show_genre', $genre->id) }}">{{ $genre->name }}</a>
-@endforeach
-<br>
-Language: {{ $book->language_code }}
-<br>
-ISBN: {{ $book->isbn }}
-<br>
-Number of this book in the library: {{ $book->in_stock }}
-<br>
-Number of available books:
-<br>
-Cover image
-<img src="{{ $book->cover_image }}" alt="Girl in a jacket" width="200" height="300">
-<br>
+
+
+<div class="container">
+    <h3>{{ $book->title }}</h3>
+    <div class="row">
+        <div class="col-md-3">
+            <img src="{{ $book->cover_image }}" alt="Girl in a jacket" width="200" height="300">
+        </div>
+        <div class="col-md-9">
+
+            <p><span class="text-primary fw-bold">Authors<br></span>
+                {{ $book->authors }}
+            </p>
+
+            <p><span class="text-primary fw-bold">Release date<br></span>
+                {{ $book->released_at }}
+            </p>
+            <p><span class="text-primary fw-bold">Pages<br></span>
+                {{ $book->pages }}
+            </p>
+            <p><span class="text-primary fw-bold">Language<br></span>
+                {{ $book->language_code }}
+            </p>
+            <p><span class="text-primary fw-bold">ISBN<br></span>
+                {{ $book->isbn }}
+            </p>
+            <p><span class="text-primary fw-bold">Number of copy in the library<br></span>
+                {{ $book->in_stock }}
+            </p>
+
+            <p><span class="text-primary fw-bold">Number of available copy<br></span>
+                {{ $book->available_books() }}
+            </p>
+
+            <p><span class="text-primary fw-bold">Description<br></span>
+                {{ $book->description }}
+            </p>
+
+            <p><span class="text-primary fw-bold">Genres<br></span>
+                @foreach($book->genres as $genre)
+                <a class="badge bg-danger" href="{{ route('show_genre', $genre->id) }}">{{ $genre->name }}</a>
+                @endforeach
+            </p>
+
+        </div>
+    </div>
+</div>
 
 @endsection
