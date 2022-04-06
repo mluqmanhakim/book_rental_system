@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use App\Models\Genre;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
@@ -10,9 +11,16 @@ class BookController extends Controller
     public function show($id)
     {
         $book = Book::find($id);
-        // dd($book->genres);
         return view('book.detail', [
             'book' => $book
+        ]);
+    }
+
+    public function create()
+    {
+        $genres = Genre::all();
+        return view('book.create', [
+            'genres' => $genres
         ]);
     }
 
@@ -30,6 +38,41 @@ class BookController extends Controller
         ]);
         $book = Book::create($validated_data);
         $book->genres()->sync($validated_data['genres'] ?? []);
+        return redirect()->route('home');
+    }
+
+    public function edit($id)
+    {
+        $book = Book::find($id);
+        $genres = Genre::all();
+        return view('book.edit', [
+            'book' => $book,
+            'genres' => $genres
+        ]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $validated_data = $request->validate([
+            'title' => 'required|max:255',
+            'authors' => 'required|max:255',
+            'released_at' => 'required|date|before:now',
+            'pages' => 'required|numeric|min:1',
+            'isbn' => 'required|regex:/^(?=(?:\D*\d){10}(?:(?:\D*\d){3})?$)[\d-]+$/i',
+            'description' => 'nullable',
+            'genres' => 'nullable|array',
+            'in_stock' => 'required|numeric|min:0'
+        ]);
+        $book = Book::find($id);
+        $book->update($validated_data);
+        $book->genres()->sync($validated_data['genres'] ?? []);
+        return redirect()->route('show_book', $book->id);
+    }
+
+    public function destroy($id)
+    {
+        $book = Book::find($id);
+        $book->delete();
         return redirect()->route('home');
     }
 }

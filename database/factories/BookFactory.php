@@ -22,7 +22,7 @@ class BookFactory extends Factory
             'released_at' => $this->faker->date(),
             'cover_image' => $this->faker->optional()->imageUrl(),
             'pages' => $this->faker->randomDigit(),
-            'isbn' => $this->faker->unique()->bothify('?????########'),
+            'isbn' => $this->faker->unique()->numerify('###-#-##-######-#'),
             'in_stock' => $this->faker->randomDigit()
         ];
     }

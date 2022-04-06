@@ -15,7 +15,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Book Rental</a>
+            <a class="navbar-brand" href="{{ route('home') }}">Book Rental</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -24,23 +24,7 @@
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="{{ route('home') }}">Home</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>
 
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Dropdown
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        </ul>
-                    </li>
 
                     @guest
                     @if (Route::has('login'))
@@ -55,12 +39,24 @@
                     </li>
                     @endif
                     @else
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('my_rental') }}">My Rental</a>
-                    </li>
+
+
+                    @if(Auth::user()->is_librarian())
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('create_book') }}">Add Book</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('genre_index') }}">Genres</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('show_rentals') }}">Rental List</a>
+                    </li>
+                    @else
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('my_rental') }}">My Rental</a>
+                    </li>
+                    @endif
+
                     <li class="nav-item dropdown">
                         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                             {{ Auth::user()->name }}

@@ -7,11 +7,8 @@ use Illuminate\Http\Request;
 
 class LibrarianController extends Controller
 {
-    public function create_book()
+    public function create()
     {
-        $genres = Genre::all();
-        return view('book.create', [
-            'genres' => $genres
-        ]);
+        
     }
 }
