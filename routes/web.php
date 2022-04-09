@@ -19,8 +19,7 @@ use App\Http\Controllers\BorrowController;
 |
 */
 Auth::routes();
-Route::get('/user/profile', [UserController::class, 'show_user_profile'])
-    ->name('show_user_profile')->middleware('auth');
+Route::get('/user/profile', [UserController::class, 'show_user_profile'])->name('show_user_profile');
 
 Route::get('/genre', [GenreController::class, 'index'])->name('genre_index');
 Route::get('/genre/create', [GenreController::class, 'create'])->name('create_genre');
@@ -35,15 +34,12 @@ Route::get('/book/{id}/edit', [BookController::class, 'edit'])->name('edit_book'
 Route::put('/book/{id}', [BookController::class, 'update'])->name('update_book');
 Route::delete('/book/{id}', [BookController::class, 'destroy'])->name('delete_book');
 
-Route::get('/my-rental', [BorrowController::class, 'show_my_rental'])
-    ->name('my_rental');
-Route::get('/rental/{id}', [BorrowController::class, 'show'])
-    ->name('show_rental');
+Route::get('/my-rental', [BorrowController::class, 'show_my_rental'])->name('my_rental');
+Route::get('/rental/{id}', [BorrowController::class, 'show'])->name('show_rental');
 Route::get('/rentals', [BorrowController::class, 'show_rentals'])->name('show_rentals');
 Route::put('/rental/{id}', [BorrowController::class, 'update'])->name('update_rental');
 
-Route::get('/borrow/book/{id}', [BorrowController::class, 'borrow_book'])
-    ->name('borrow_book');
+Route::get('/borrow/book/{id}', [BorrowController::class, 'borrow_book'])->name('borrow_book');
     
 // public routes
 Route::get('/', [HomeController::class, 'index'])->name('index');

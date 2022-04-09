@@ -11,11 +11,11 @@ class GenreController extends Controller
 {
     public function __construct() {
         $this->middleware('auth');
-        Gate::authorize('librarian', Auth::user());
     }
     
     public function index()
     {
+        Gate::authorize('librarian', Auth::user());
         $genres = Genre::all();
         return view('genre.index', [
             'genres' => $genres
@@ -24,11 +24,13 @@ class GenreController extends Controller
 
     public function create()
     {
+        Gate::authorize('librarian', Auth::user());
         return view('genre.create');
     }
 
     public function store(Request $request)
     {
+        Gate::authorize('librarian', Auth::user());
         $validated_data = $request->validate([
             'name' => 'required|string|min:3|max:255',
             'style' => 'required',
@@ -39,6 +41,7 @@ class GenreController extends Controller
 
     public function edit($id)
     {
+        Gate::authorize('librarian', Auth::user());
         $genre = Genre::find($id);
         return view('genre.edit', [
             'genre' => $genre
@@ -47,6 +50,7 @@ class GenreController extends Controller
 
     public function update(Request $request, $id)
     {
+        Gate::authorize('librarian', Auth::user());
         $validated_data = $request->validate([
             'name' => 'required|string|min:3|max:255',
             'style' => 'required',
@@ -58,6 +62,7 @@ class GenreController extends Controller
 
     public function destroy($id)
     {
+        Gate::authorize('librarian', Auth::user());
         $genre = Genre::find($id);
         $genre->delete();
         return redirect()->route('genre_index');

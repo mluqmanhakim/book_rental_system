@@ -5,9 +5,9 @@
     <h1>Search result for "{{ $keyword }}":</h1>
 
     @if ($books->count() < 1) 
-    <div class="alert alert-danger" role="alert">
-        No book found. Back to homepage to search another book.
-    </div>
+        <div class="alert alert-danger" role="alert">
+            No book found. Back to <a href="{{ route('home') }}" class="alert-link">homepage</a> to search another book.
+        </div>
     @else
     <p>{{ $books->count() }} books found.</p>
     @foreach ($books as $book)
@@ -15,7 +15,6 @@
         <div class="col-md-12">
             <div class="card mb-3">
                 <div class="card-body">
-
                     <a href="{{ route('show_book', $book->id) }}">
                         <h3>{{ $book->title }}</h3>
                     </a>

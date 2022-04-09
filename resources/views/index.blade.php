@@ -7,25 +7,21 @@
             <div class="alert alert-primary" role="alert">
                 Number of users <h1>{{ $user_count }}</h1>
             </div>
-
         </div>
         <div class="col-md-3">
             <div class="alert alert-warning" role="alert">
                 Number of genres <h1>{{ $genre_count }}</h1>
             </div>
-
         </div>
         <div class="col-md-3">
             <div class="alert alert-success" role="alert">
                 Number of books <h1>{{ $book_count }}</h1>
             </div>
-
         </div>
         <div class="col-md-3">
             <div class="alert alert-danger" role="alert">
                 Number of active book rentals <h1>{{ $active_rental_count }}</h1>
             </div>
-
         </div>
     </div>
 </div>

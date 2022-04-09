@@ -12,11 +12,11 @@ class BookController extends Controller
 {
     public function __construct() {
         $this->middleware('auth');
-        Gate::authorize('librarian', Auth::user());
     }
     
     public function create()
     {
+        Gate::authorize('librarian', Auth::user());
         $genres = Genre::all();
         return view('book.create', [
             'genres' => $genres
