@@ -8,7 +8,6 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-
             <h1>Pending rentals</h1>
             <table class="table table-striped">
                 <thead>
@@ -32,7 +31,6 @@
                     @endforeach
                 </tbody>
             </table>
-
             <h1>Accepted and in-time rentals</h1>
             <table class="table table-striped">
                 <thead>
@@ -55,8 +53,6 @@
                     </tr> @endforeach
                 </tbody>
             </table>
-
-
             <h1>Accepted late rentals</h1>
             <table class="table table-striped">
                 <thead>
@@ -80,8 +76,6 @@
                     @endforeach
                 </tbody>
             </table>
-
-
             <h1>Rejected rentals</h1>
             <table class="table table-striped">
                 <thead>
@@ -105,9 +99,6 @@
                     @endforeach
                 </tbody>
             </table>
-
-
-
             <h1>Returned rentals</h1>
             <table class="table table-striped">
                 <thead>

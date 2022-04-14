@@ -24,7 +24,6 @@ return new class extends Migration
             $table->dateTime('returned_at')->nullable();
             $table->unsignedBigInteger('return_managed_by')->nullable();
             $table->timestamps();
-            $table->softDeletes();
 
             $table->foreign('reader_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('book_id')->references('id')->on('books')->onDelete('cascade');
