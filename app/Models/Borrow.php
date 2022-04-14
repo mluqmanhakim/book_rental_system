@@ -33,4 +33,15 @@ class Borrow extends Model
     {
         return $this->hasOne(User::class, 'id', 'return_managed_by');
     }
+
+    public function get_all_filtered_by_status($status) {
+        $rentals = $this::select('borrows.id', 'borrows.reader_id', 
+                            'borrows.created_at', 
+                            'borrows.deadline', 'books.title as book_title', 'books.authors as book_authors')
+                            ->join('books', 'borrows.book_id', '=', 'books.id')
+                            ->where('borrows.status', $status)
+                            ->whereNull('books.deleted_at')
+                            ->get();
+        return $rentals;
+    }
 }

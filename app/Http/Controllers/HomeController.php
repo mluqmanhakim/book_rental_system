@@ -7,7 +7,6 @@ use App\Models\User;
 use App\Models\Genre;
 use App\Models\Borrow;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -17,7 +16,9 @@ class HomeController extends Controller
         $user_count = User::all()->count();
         $genre_count = $genres->count();
         $book_count = Book::all()->count();
-        $active_rental_count = Borrow::where('status', 'ACCEPTED')->get()->count();
+        $rentals = new Borrow();
+        $active_rental_count = $rentals->get_all_filtered_by_status('ACCEPTED')->count();
+        
         return view('index', [
             'genres' => $genres,
             'user_count' => $user_count,

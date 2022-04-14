@@ -51,7 +51,8 @@
                 </div>
 
                 <div class="form-group mb-3">
-                    <label for="isbn">ISBN</label>
+                    <label for="isbn">ISBN</label><br>
+                    <small>Example: 978-3-16-148410-0</small>
                     <input name="isbn" type="text" class="form-control @error('isbn') is-invalid @enderror" id="isbn"
                         placeholder="" value="{{ old('isbn', '') }}">
                     @error('isbn')

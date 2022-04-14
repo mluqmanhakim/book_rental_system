@@ -20,13 +20,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($pending_rentals as $rental)
+                    @foreach($pending_rentals as $pend_rental)
                     <tr>
-                        <td>{{ $rental->book->title }}</td>
-                        <td>{{ $rental->book->authors }}</td>
-                        <td>{{ $rental->request_processed_at }}</td>
-                        <td>{{ $rental->deadline }}</td>
-                        <td><a href="{{ route('show_rental', $rental->id) }}">Detail</a></td>
+                        <td>{{ $pend_rental->book_title }}</td>
+                        <td>{{ $pend_rental->book_authors }}</td>
+                        <td>{{ $pend_rental->created_at->format('d-M-Y H:i:s') }}</td>
+                        <td>{{ $pend_rental->deadline }}</td>
+                        <td><a href="{{ route('show_rental', $pend_rental->id) }}">Detail</a></td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -43,13 +43,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($accepted_in_time_rentals as $rental)
+                    @foreach($accepted_in_time_rentals as $acc_in_rental)
                     <tr>
-                        <td>{{ $rental->book->title }}</td>
-                        <td>{{ $rental->book->authors }}</td>
-                        <td>{{ $rental->request_processed_at }}</td>
-                        <td>{{ $rental->deadline }}</td>
-                        <td><a href="{{ route('show_rental', $rental->id) }}">Detail</a></td>
+                        <td>{{ $acc_in_rental->book_title }}</td>
+                        <td>{{ $acc_in_rental->book_authors }}</td>
+                        <td>{{ $acc_in_rental->created_at->format('d M Y H:i:s') }}</td>
+                        <td>{{ date("d M Y H:i:s", strtotime($acc_in_rental->deadline)) }}</td>
+                        <td><a href="{{ route('show_rental', $acc_in_rental->id) }}">Detail</a></td>
                     </tr> @endforeach
                 </tbody>
             </table>
@@ -65,13 +65,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($accepted_late_rentals as $rental)
+                    @foreach($accepted_late_rentals as $acc_late_rental)
                     <tr>
-                        <td>{{ $rental->book->title }}</td>
-                        <td>{{ $rental->book->authors }}</td>
-                        <td>{{ $rental->request_processed_at }}</td>
-                        <td>{{ $rental->deadline }}</td>
-                        <td><a href="{{ route('show_rental', $rental->id) }}">Detail</a></td>
+                        <td>{{ $acc_late_rental->book_title }}</td>
+                        <td>{{ $acc_late_rental->book_authors }}</td>
+                        <td>{{ $acc_late_rental->created_at }}</td>
+                        <td>{{ $acc_late_rental->deadline }}</td>
+                        <td><a href="{{ route('show_rental', $acc_late_rental->id) }}">Detail</a></td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -88,13 +88,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($rejected_rentals as $rental)
+                    @foreach($rejected_rentals as $rej_rental)
                     <tr>
-                        <td>{{ $rental->book->title }}</td>
-                        <td>{{ $rental->book->authors }}</td>
-                        <td>{{ $rental->request_processed_at }}</td>
-                        <td>{{ $rental->deadline }}</td>
-                        <td><a href="{{ route('show_rental', $rental->id) }}">Detail</a></td>
+                        <td>{{ $rej_rental->book_title }}</td>
+                        <td>{{ $rej_rental->book_authors }}</td>
+                        <td>{{ $rej_rental->created_at }}</td>
+                        <td>{{ $rej_rental->deadline }}</td>
+                        <td><a href="{{ route('show_rental', $rej_rental->id) }}">Detail</a></td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -111,13 +111,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($returned_rentals as $rental)
+                    @foreach($returned_rentals as $ret_rental)
                     <tr>
-                        <td>{{ $rental->book->title }}</td>
-                        <td>{{ $rental->book->authors }}</td>
-                        <td>{{ $rental->request_processed_at }}</td>
-                        <td>{{ $rental->deadline }}</td>
-                        <td><a href="{{ route('show_rental', $rental->id) }}">Detail</a></td>
+                        <td>{{ $ret_rental->book_title }}</td>
+                        <td>{{ $ret_rental->book_authors }}</td>
+                        <td>{{ $ret_rental->created_at }}</td>
+                        <td>{{ $ret_rental->deadline }}</td>
+                        <td><a href="{{ route('show_rental', $ret_rental->id) }}">Detail</a></td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -131,7 +131,9 @@
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
 <script>
     $(document).ready( function () {
-        $('.table').DataTable();
+        $('.table').DataTable({
+            "order": [[ 2, "desc" ]]
+        });
     } );
 </script>
 @endsection

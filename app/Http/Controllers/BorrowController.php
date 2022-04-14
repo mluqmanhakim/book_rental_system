@@ -27,42 +27,17 @@ class BorrowController extends Controller
     public function show_my_rental()
     {
         $user_id = Auth::id();
-        $pending_rentals = Borrow::where('reader_id', $user_id)
-                            ->where('status', 'PENDING')
-                            ->join('books', 'borrows.book_id', '=', 'books.id')
-                            ->whereNull('books.deleted_at')
-                            ->orderBy('borrows.created_at', 'desc')
-                            ->get();
-
-        $accepted_in_time_rentals = Borrow::where('reader_id', $user_id)
-                                    ->where('status', 'ACCEPTED')
-                                    ->where('deadline', '>', Carbon::now())
-                                    ->join('books', 'borrows.book_id', '=', 'books.id')
-                                    ->whereNull('books.deleted_at')
-                                    ->orderBy('borrows.created_at', 'desc')
-                                    ->get();
-
-        $accepted_late_rentals = Borrow::where('reader_id', $user_id)
-                                    ->where('status', 'ACCEPTED')
-                                    ->where('deadline', '<', Carbon::now())
-                                    ->join('books', 'borrows.book_id', '=', 'books.id')
-                                    ->whereNull('books.deleted_at')
-                                    ->orderBy('borrows.created_at', 'desc')
-                                    ->get();
-
-        $rejected_rentals = Borrow::where('reader_id', $user_id)
-                            ->where('status', 'REJECTED')
-                            ->join('books', 'borrows.book_id', '=', 'books.id')
-                            ->whereNull('books.deleted_at')
-                            ->orderBy('borrows.created_at', 'desc')
-                            ->get();
-
-        $returned_rentals = Borrow::where('reader_id', $user_id)
-                            ->where('status', 'RETURNED')
-                            ->join('books', 'borrows.book_id', '=', 'books.id')
-                            ->whereNull('books.deleted_at')
-                            ->orderBy('borrows.created_at', 'desc')
-                            ->get();
+        $rentals = new Borrow();
+        $pending_rentals = $rentals->get_all_filtered_by_status('PENDING')
+                                    ->where('reader_id', $user_id);
+        $accepted_in_time_rentals = $rentals->get_all_filtered_by_status('ACCEPTED')
+                                            ->where('deadline', '>=', Carbon::now())->where('reader_id', $user_id);
+        $accepted_late_rentals = $rentals->get_all_filtered_by_status('ACCEPTED')
+                                            ->where('deadline', '<', Carbon::now())->where('reader_id', $user_id);
+        $rejected_rentals = $rentals->get_all_filtered_by_status('REJECTED')
+                                    ->where('reader_id', $user_id);
+        $returned_rentals = $rentals->get_all_filtered_by_status('RETURNED')
+                                    ->where('reader_id', $user_id);
         
         return view('rental.my_rental', [
             'pending_rentals' => $pending_rentals,
@@ -76,34 +51,15 @@ class BorrowController extends Controller
     public function show_rentals()
     {
         Gate::authorize('librarian', Auth::user());
-        $pending_rentals = Borrow::where('status', 'PENDING')
-                            ->join('books', 'borrows.book_id', '=', 'books.id')
-                            ->whereNull('books.deleted_at')
-                            ->orderBy('borrows.created_at', 'desc')
-                            ->get();
-        $accepted_in_time_rentals = Borrow::where('status', 'ACCEPTED')
-                                    ->where('deadline', '>', Carbon::now())
-                                    ->join('books', 'borrows.book_id', '=', 'books.id')
-                                    ->whereNull('books.deleted_at')
-                                    ->orderBy('borrows.created_at', 'desc')
-                                    ->get();
-        $accepted_late_rentals = Borrow::where('status', 'ACCEPTED')
-                                    ->where('deadline', '<', Carbon::now())
-                                    ->join('books', 'borrows.book_id', '=', 'books.id')
-                                    ->whereNull('books.deleted_at')
-                                    ->orderBy('borrows.created_at', 'desc')
-                                    ->get();
-        $rejected_rentals = Borrow::where('status', 'REJECTED')
-                                    ->join('books', 'borrows.book_id', '=', 'books.id')
-                                    ->whereNull('books.deleted_at')
-                                    ->orderBy('borrows.created_at', 'desc')
-                                    ->get();
-        $returned_rentals = Borrow::where('status', 'RETURNED')
-                            ->join('books', 'borrows.book_id', '=', 'books.id')
-                            ->whereNull('books.deleted_at')
-                            ->orderBy('borrows.created_at', 'desc')
-                            ->get();
-        
+        $rentals = new Borrow();
+        $pending_rentals = $rentals->get_all_filtered_by_status('PENDING');
+        $accepted_in_time_rentals = $rentals->get_all_filtered_by_status('ACCEPTED')
+                                            ->where('deadline', '>=', Carbon::now());
+        $accepted_late_rentals = $rentals->get_all_filtered_by_status('ACCEPTED')
+                                            ->where('deadline', '<', Carbon::now());
+        $rejected_rentals = $rentals->get_all_filtered_by_status('REJECTED');
+        $returned_rentals = $rentals->get_all_filtered_by_status('RETURNED');
+         
         return view('rental.index', [
             'pending_rentals' => $pending_rentals,
             'accepted_in_time_rentals' => $accepted_in_time_rentals,
@@ -121,7 +77,22 @@ class BorrowController extends Controller
             'status' => 'required',
         ]);
         $rental = Borrow::find($id);
+        $validated_data['deadline'] = date('Y-m-d H:i:s', strtotime($validated_data['deadline']));
         $rental->update($validated_data);
+        $user_id = Auth::id();
+
+        if ($validated_data['status'] == 'RETURNED') {
+            $rental->update([
+                'return_managed_by' => $user_id,
+                'returned_at' => Carbon::now()
+            ]);
+        }
+        else {
+            $rental->update([
+                'request_managed_by' => $user_id,
+                'request_processed_at' => Carbon::now()
+            ]);
+        }
         return redirect()->route('show_rental', $rental->id);
     }
 
